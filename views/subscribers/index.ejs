@@ -1,0 +1,38 @@
+<h2>Liste des abonnés</h2>
+
+<form action="/subscribers/search" method="GET" class="form-inline mb-3">
+  <input type="text" name="name" class="form-control mr-2" placeholder="Nom">
+  <input type="text" name="zipCode" class="form-control mr-2" placeholder="Code Postal">
+  <button type="submit" class="btn btn-primary">Rechercher</button>
+</form>
+
+<a href="/subscribers/new" class="btn btn-success mb-3">Créer un nouvel abonné</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Code Postal</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% subscribers.forEach(subscriber => { %>
+      <tr>
+        <td><a href="/subscribers/<%= subscriber._id %>"><%= subscriber.name %></a></td>
+        <td><%= subscriber.email %></td>
+        <td><%= subscriber.zipCode %></td>
+        <td>
+          <form action="/subscribers/<%= subscriber._id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cet abonné ?');">Supprimer</button>
+          </form>
+        </td>
+        <td>
+            <a href="/subscribers/<%= subscriber._id %>/edit" class="btn btn-warning btn-sm">Modifier</a>
+            
+          </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
