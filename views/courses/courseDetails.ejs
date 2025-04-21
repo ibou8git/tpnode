@@ -1,0 +1,8 @@
+<main>
+    <h1><%= course.title %></h1>
+    <p><%= course.description %></p>
+    <p>Coût : <%= course.cost %> €</p>
+    <form action="/courses/<%= course.id %>/enroll" method="POST">
+      <button type="submit">S'inscrire</button>
+    </form>
+  </main>
