@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1><%= pageTitle %></h1>
+    
+    <% if (subscribers.length) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Code Postal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% subscribers.forEach(subscriber => { %>
+                    <tr>
+                        <td><%= subscriber.name %></td>
+                        <td><%= subscriber.email %></td>
+                        <td><%= subscriber.zipCode %></td>
+                        <td>
+                            <a href="/subscribers/<%= subscriber._id %>">Voir</a>
+                            <a href="/subscribers/<%= subscriber._id %>/edit">Modifier</a>
+                            <form action="/subscribers/<%= subscriber._id %>?_method=DELETE" method="POST">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>Aucun abonné trouvé</p>
+    <% } %>
+    
+    <a href="/subscribers/new">Ajouter un abonné</a>
+</body>
+</html>

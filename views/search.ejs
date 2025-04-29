@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recherche de Cours IA</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Rechercher un cours d'IA</h1>
+    
+    <form id="searchForm " action="/search" method="GET">
+      <input type="text" name="q" placeholder="Rechercher par mot-clé..." required>
+      <button type="submit">Rechercher</button>
+    </form>
+    
+    <div id="results">
+      <div class="stats" id="stats"></div>
+      <div class="course-list" id="courseList"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const searchTerm = document.querySelector('input[name="q"]').value;
+      
+      try {
+        const response = await fetch(`/api/courses/search?q=${encodeURIComponent(searchTerm)}`);
+        const data = await response.json();
+        
+        // Affichage des statistiques
+        document.getElementById('stats').innerHTML = `
+          <p>${data.count} cours trouvés pour "${data.searchTerm}"</p>
+        `;
+        
+        // Affichage des résultats
+        document.getElementById('courseList').innerHTML = data.results.map(course => `
+          <div class="course-card">
+            <h3>${course.title}</h3>
+            <p class="level">Niveau: ${course.level}</p>
+            <p class="duration">Durée: ${course.duration}</p>
+            <p class="description">${course.description}</p>
+          </div>
+        `).join('');
+        
+      } catch (error) {
+        console.error('Erreur:', error);
+        document.getElementById('results').innerHTML = `
+          <p class="error">Une erreur est survenue lors de la recherche</p>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
